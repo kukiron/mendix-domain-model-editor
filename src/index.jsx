@@ -1,29 +1,29 @@
+import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import {App} from './components/app';
-import {EntityStore} from './stores/entitystore';
-import {useStrict} from 'mobx';
+import { App } from './components/app';
+import { EntityStore } from './stores/entitystore';
+import { useStrict } from 'mobx';
+import { formatJsonData } from './utils';
 
 useStrict(true);
 
-const DEMO_DATA = [
-  {
-    id: 1,
-    name: "Order",
-    x: 100,
-    y: 100
-  },
-  {
-    id: 2,
-    name: "OrderLine",
-    x: 200,
-    y: 200
-  }
-];
-
 const entityStore = new EntityStore();
-entityStore.loadJson(DEMO_DATA);
+const loadEntityStoreData = async () => {
+  const coordsResponse = await fetch(
+    'http://localhost:3000/static/coords.json'
+  );
+  const coords = await coordsResponse.json();
+  const entitiesResponse = await fetch(
+    'http://localhost:3000/static/entities.json'
+  );
+  const entities = await entitiesResponse.json();
+
+  const DEMO_DATA = formatJsonData(coords, entities);
+  entityStore.loadJson(DEMO_DATA);
+};
+loadEntityStoreData();
 
 render(
   <AppContainer>
@@ -38,7 +38,7 @@ if (module.hot) {
 
     render(
       <AppContainer>
-          <App entityStore={entityStore} />
+        <App entityStore={entityStore} />
       </AppContainer>,
       document.getElementById('root')
     );
