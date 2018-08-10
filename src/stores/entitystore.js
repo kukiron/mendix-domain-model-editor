@@ -1,12 +1,14 @@
-import {observable, action, computed, autorunAsync} from "mobx";
+import { observable, action, computed, autorunAsync } from 'mobx';
+import { addAttribute } from '../utils';
 
-const hasLocalStorage = typeof window !== "undefined" && window.localStorage;
+const hasLocalStorage = typeof window !== 'undefined' && window.localStorage;
 
 export class Entity {
   id = Math.random();
-  @observable name = "Entity";
+  @observable name = 'Entity';
   @observable x = 0;
   @observable y = 0;
+  @observable attributes = [];
 
   constructor(json) {
     if (json) {
@@ -15,8 +17,8 @@ export class Entity {
   }
 
   @computed get asJson() {
-    const {id, name, x, y } = this;
-    return { id, name, x, y };
+    const { id, name, x, y, attributes } = this;
+    return { id, name, x, y, attributes };
   }
 }
 
@@ -40,14 +42,18 @@ export class EntityStore {
     }));
   }
 
-  saveToLocalStorageReaction = () => {
-    if (hasLocalStorage) {
-      window.localStorage.setItem("domain-model-app", JSON.stringify(this.asJson));
-    }
+  @action updateEntity(newEntity) {
+    this.entities = addAttribute(newEntity, this.entities);
   }
 
+  saveToLocalStorageReaction = () => {
+    if (hasLocalStorage) {
+      window.localStorage.setItem('domain-model-app', JSON.stringify(this.asJson));
+    }
+  };
+
   @action loadFromLocalStorage() {
-    const data = hasLocalStorage && window.localStorage.getItem("domain-model-app");
+    const data = hasLocalStorage && window.localStorage.getItem('domain-model-app');
     if (data) {
       this.loadJson(JSON.parse(data));
     } else {
