@@ -11,13 +11,9 @@ useStrict(true);
 
 const entityStore = new EntityStore();
 const loadEntityStoreData = async () => {
-  const coordsResponse = await fetch(
-    'http://localhost:3000/static/coords.json'
-  );
+  const coordsResponse = await fetch('http://localhost:3000/static/coords.json');
   const coords = await coordsResponse.json();
-  const entitiesResponse = await fetch(
-    'http://localhost:3000/static/entities.json'
-  );
+  const entitiesResponse = await fetch('http://localhost:3000/static/entities.json');
   const entities = await entitiesResponse.json();
 
   const DEMO_DATA = formatJsonData(coords, entities);
