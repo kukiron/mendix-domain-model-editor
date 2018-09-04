@@ -1,45 +1,45 @@
-import React, { Component } from 'react';
-import Modal from 'react-modal';
+import React, { Component } from "react"
+import Modal from "react-modal"
 
 const customStyles = {
   content: {
-    position: 'fixed',
-    top: '50%',
-    left: '50%',
-    backgroundColor: '#fafafa',
-    transform: 'translate(-50%, -50%)'
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    backgroundColor: "#fafafa",
+    transform: "translate(-50%, -50%)"
   }
-};
+}
 
-const attrType = ['String', 'Number', 'Boolean'];
+const attrType = ["String", "Number", "Boolean"]
 
 class AttributeModal extends Component {
-  state = { name: '', type: '' };
+  state = { name: "", type: "" }
 
   handleChange = e => {
-    this.setState({ name: e.target.value });
-  };
+    this.setState({ name: e.target.value })
+  }
 
   handleSelect = e => {
-    this.setState({ type: e.target.value });
-  };
+    this.setState({ type: e.target.value })
+  }
 
   handleSubmit = e => {
-    e.preventDefault();
-    const { name, type } = this.state;
+    e.preventDefault()
+    const { name, type } = this.state
 
-    const entity = this.props.onAfterOpen();
-    const attrObj = { id: entity.id, attribute: { name, type } };
+    const entity = this.props.onAfterOpen()
+    const attrObj = { id: entity.id, attribute: { name, type } }
 
-    this.props.entityStore.updateEntity(attrObj);
-    this.setState({ name: '', type: '' });
-    this.props.closeModal();
-  };
+    this.props.entityStore.updateEntity(attrObj)
+    this.setState({ name: "", type: "" })
+    this.props.closeModal()
+  }
 
-  isDisabled = () => !(this.state.name !== '' && this.state.type !== '');
+  isDisabled = () => !(this.state.name !== "" && this.state.type !== "")
 
   render() {
-    const { isOpen, onAfterOpen, closeModal } = this.props;
+    const { isOpen, onAfterOpen, closeModal } = this.props
     return (
       <div>
         <Modal
@@ -62,20 +62,30 @@ class AttributeModal extends Component {
             <div>
               <label>Select type:</label>
               <select value={this.state.type} onChange={this.handleSelect}>
-                <option value="" disabled>Attribute type</option>
-                {attrType.map((attr, i) => (<option key={i} value={attr}>{attr}</option>))}
+                <option value="" disabled>
+                  Attribute type
+                </option>
+                {attrType.map((attr, i) => (
+                  <option key={i} value={attr}>
+                    {attr}
+                  </option>
+                ))}
               </select>
             </div>
 
             <div className="btn-container">
-              <button type="submit" disabled={this.isDisabled()}>submit</button>
-              <button type="button" onClick={closeModal}>close</button>
+              <button type="submit" disabled={this.isDisabled()}>
+                submit
+              </button>
+              <button type="button" onClick={closeModal}>
+                close
+              </button>
             </div>
           </form>
         </Modal>
       </div>
-    );
+    )
   }
 }
 
-export default AttributeModal;
+export default AttributeModal

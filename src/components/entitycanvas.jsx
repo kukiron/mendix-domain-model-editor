@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { observer } from 'mobx-react';
-import Draggable from 'react-draggable';
+import React from "react"
+import { observer } from "mobx-react"
+import Draggable from "react-draggable"
 
 const entityBaseStyle = {
-  position: 'absolute',
+  position: "absolute",
   width: 100,
-  backgroundColor: '#fafafa',
-  border: '1px solid cornflowerblue',
+  backgroundColor: "#fafafa",
+  border: "1px solid cornflowerblue",
   borderRadius: 4,
   padding: 20,
-  cursor: 'pointer'
-};
+  cursor: "pointer"
+}
 
 export const EntityCanvas = observer(({ entityStore, onBlur, onFocus }) => (
   <div>
@@ -18,7 +18,7 @@ export const EntityCanvas = observer(({ entityStore, onBlur, onFocus }) => (
       <Entity key={i} entity={entity} onBlur={onBlur} onFocus={onFocus} />
     ))}
   </div>
-));
+))
 
 const Entity = observer(({ entity, onBlur, onFocus }) => (
   <Draggable defaultPosition={{ x: entity.x, y: entity.y }}>
@@ -26,7 +26,8 @@ const Entity = observer(({ entity, onBlur, onFocus }) => (
       className="draggable"
       style={Object.assign({}, entityBaseStyle)}
       onFocus={() => onFocus(entity)}
-      onBlur={onBlur} tabIndex={0}
+      onBlur={onBlur}
+      tabIndex={0}
     >
       {entity.name}
       {entity.attributes &&
@@ -38,4 +39,4 @@ const Entity = observer(({ entity, onBlur, onFocus }) => (
         ))}
     </div>
   </Draggable>
-));
+))
